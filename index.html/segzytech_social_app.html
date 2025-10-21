@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SegzyTech</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom scrollbar for a more modern look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Basic styles */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Animation for newly added posts */
+        @keyframes new-post-animation {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .new-post {
+            animation: new-post-animation 0.5s ease-out;
+        }
+
+        /* Custom height and resize for post-input */
+        .auto-resize-textarea {
+            min-height: 48px; /* Standard button height or desired initial height */
+            resize: none; /* Controlled by JavaScript */
+            overflow-y: hidden; /* Hide scrollbar when content fits */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+    <div id="app">
+        <header class="bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-40">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center space-x-4">
+                        <a href="#" class="text-2xl font-bold text-blue-600 dark:text-blue-400">SegzyTech</a>
+                        <div class="relative hidden md:block">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <i data-lucide="search" class="w-5 h-5"></i>
+                            </span>
+                            <input type="text" placeholder="Search SegzyTech" class="bg-gray-100 dark:bg-gray-700 rounded-full pl-10 pr-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        </div>
+                    </div>
+
+                    <nav class="hidden lg:flex items-center space-x-2">
+                        <a href="#" class="p-3 text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400">
+                            <i data-lucide="home" class="w-7 h-7"></i>
+                        </a>
+                        <a href="#" class="p-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-7 h-7"></i>
+                        </a>
+                        <a href="#" class="p-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <i data-lucide="play-square" class="w-7 h-7"></i>
+                        </a>
+                        <a href="#" class="p-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <i data-lucide="store" class="w-7 h-7"></i>
+                        </a>
+                    </nav>
+
+                    <div class="flex items-center space-x-2">
+                        <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                            <i data-lucide="sun" class="w-6 h-6 hidden dark:block"></i>
+                            <i data-lucide="moon" class="w-6 h-6 block dark:hidden"></i>
+                        </button>
+                        <button class="w-10 h-10 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                            <i data-lucide="message-square" class="w-5 h-5"></i>
+                        </button>
+                        <button class="w-10 h-10 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                            <i data-lucide="bell" class="w-5 h-5"></i>
+                        </button>
+                        <img src="https://placehold.co/40x40/6366f1/white?text=S" alt="User Avatar" class="w-10 h-10 rounded-full cursor-pointer">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="pt-16">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-[1fr,2fr,1fr] gap-8">
+                    
+                    <aside class="hidden lg:block py-6">
+                        <div class="sticky top-20">
+                            <ul class="space-y-2">
+                                <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                    <img src="https://placehold.co/32x32/6366f1/white?text=S" alt="User Avatar" class="w-8 h-8 rounded-full">
+                                    <span class="font-semibold">Segun Adebayo</span>
+                                </a></li>
+                                <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"><i data-lucide="users-2" class="w-7 h-7 text-blue-500"></i><span class="font-medium">Friends</span></a></li>
+                                <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"><i data-lucide="clock" class="w-7 h-7 text-cyan-500"></i><span class="font-medium">Memories</span></a></li>
+                                <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"><i data-lucide="bookmark" class="w-7 h-7 text-purple-500"></i><span class="font-medium">Saved</span></a></li>
+                                <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"><i data-lucide="flag" class="w-7 h-7 text-orange-500"></i><span class="font-medium">Pages</span></a></li>
+                                <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"><i data-lucide="user-check" class="w-7 h-7 text-green-500"></i><span class="font-medium">Groups</span></a></li>
+                                <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"><i data-lucide="calendar" class="w-7 h-7 text-red-500"></i><span class="font-medium">Events</span></a></li>
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <div class="py-6">
+                        <div class="space-y-6">
+                            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div class="flex items-center space-x-3 border-b border-gray-200 dark:border-gray-700 pb-4 mb-4">
+                                    <img src="https://placehold.co/40x40/6366f1/white?text=S" alt="User Avatar" class="w-10 h-10 rounded-full">
+                                    <textarea id="post-input" placeholder="What's on your mind, Segun?" class="auto-resize-textarea w-full bg-gray-100 dark:bg-gray-700 rounded-full py-2 px-4 focus:outline-none" rows="1"></textarea>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-2">
+                                        <button class="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                            <i data-lucide="video" class="w-6 h-6 text-red-500"></i><span class="hidden sm:block font-medium">Live video</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                            <i data-lucide="image" class="w-6 h-6 text-green-500"></i><span class="hidden sm:block font-medium">Photo/video</span>
+                                        </button>
+                                        <button class="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                            <i data-lucide="smile" class="w-6 h-6 text-yellow-500"></i><span class="hidden sm:block font-medium">Feeling/activity</span>
+                                        </button>
+                                    </div>
+                                    <button id="post-button" class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-300 disabled:cursor-not-allowed" disabled>Post</button>
+                                </div>
+                            </div>
+                            <div id="feed-container" class="space-y-6">
+                                </div>
+                        </div>
+                    </div>
+
+                    <aside class="hidden lg:block py-6">
+                        <div class="sticky top-20 space-y-6">
+                            <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                                <h3 class="font-bold text-gray-500 dark:text-gray-400 text-sm">Sponsored</h3>
+                                <a href="#" class="block mt-2">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://placehold.co/100x100/34d399/1f2937?text=Ad" class="rounded-lg w-24 h-24 object-cover" alt="Advertisement for building apps">
+                                        <div>
+                                            <p class="font-semibold">Build Amazing Apps</p>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">yourbrand.com</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h3 class="font-bold text-gray-500 dark:text-gray-400">Contacts</h3>
+                                    <div class="flex space-x-2 text-gray-500">
+                                        <i data-lucide="video" class="w-5 h-5 cursor-pointer"></i>
+                                        <i data-lucide="search" class="w-5 h-5 cursor-pointer"></i>
+                                        <i data-lucide="more-horizontal" class="w-5 h-5 cursor-pointer"></i>
+                                    </div>
+                                </div>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <div class="relative"><img src="https://placehold.co/32x32/ec4899/white?text=J" alt="Jane Doe's Avatar" class="w-8 h-8 rounded-full"><span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-white dark:ring-gray-800"></span></div>
+                                        <span class="font-semibold">Jane Doe</span>
+                                    </a></li>
+                                    <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <div class="relative"><img src="https://placehold.co/32x32/f97316/white?text=M" alt="Mike Ross's Avatar" class="w-8 h-8 rounded-full"><span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-white dark:ring-gray-800"></span></div>
+                                        <span class="font-semibold">Mike Ross</span>
+                                    </a></li>
+                                    <li><a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <div class="relative"><img src="https://placehold.co/32x32/14b8a6/white?text=A" alt="Alice Johnson's Avatar" class="w-8 h-8 rounded-full"></div>
+                                        <span class="font-semibold">Alice Johnson</span>
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const htmlElement = document.documentElement;
+            const themeToggle = document.getElementById('theme-toggle');
+            const postInput = document.getElementById('post-input');
+            const postButton = document.getElementById('post-button');
+            const feedContainer = document.getElementById('feed-container');
+
+            // --- 1. DARK MODE TOGGLE & INITIAL ICON RENDERING ---
+            function applyTheme() {
+                if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    htmlElement.classList.add('dark');
+                } else {
+                    htmlElement.classList.remove('dark');
+                }
+            }
+
+            // Apply theme on load
+            applyTheme();
+            
+            // Toggle listener
+            themeToggle.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+                if (htmlElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+                // NOTE: We only need to call lucide.createIcons() globally once at the very end
+            });
+
+            // --- 2. TEXTAREA DYNAMIC RESIZING (NEW CORRECTION) ---
+            function resizeTextarea() {
+                // Check if textarea exists before attempting to resize
+                if (!postInput) return;
+
+                postInput.style.height = 'auto'; // Reset height
+                // Set height to scrollHeight (content height), but clamp it to a max for sanity
+                const maxHeight = 200; // Max height in pixels
+                postInput.style.height = Math.min(postInput.scrollHeight, maxHeight) + 'px';
+            }
+
+            postInput.addEventListener('input', () => {
+                // Enable post button only when there is text
+                postButton.disabled = postInput.value.trim() === '';
+                resizeTextarea();
+            });
+
+            // Set initial height (in case of pre-filled text)
+            resizeTextarea();
+
+
+            // --- 3. POST CREATION LOGIC ---
+            
+            // Allow Enter to post, Shift+Enter for new line
+            postInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    postButton.click();
+                }
+            });
+            
+            // Function to create and add a post element to the DOM
+            function addPostToFeed(post, isNew = false) {
+                const postElement = document.createElement('div');
+                postElement.className = 'bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md';
+                if (isNew) {
+                    postElement.classList.add('new-post');
+                }
+
+                postElement.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="${post.avatar}" alt="${post.author} Avatar" class="w-10 h-10 rounded-full">
+                            <div>
+                                <p class="font-semibold">${post.author}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">${post.time}</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full">
+                            <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <p class="my-4">${post.content.replace(/\n/g, '<br>')}</p>
+                    ${post.image ? `<img src="${post.image}" alt="Post image" class="rounded-lg w-full object-cover max-h-96">` : ''}
+                    
+                    <div class="flex justify-between items-center mt-4 text-gray-500 dark:text-gray-400">
+                        <div class="flex items-center space-x-1">
+                            <i class="w-5 h-5 text-blue-500" data-lucide="thumbs-up"></i>
+                            <span class="likes-count">${post.likes}</span>
+                        </div>
+                        <span>${post.comments} comments</span>
+                    </div>
+
+                    <div class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2 flex justify-around">
+                        <button class="like-button flex items-center space-x-2 w-full justify-center py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium">
+                            <i data-lucide="thumbs-up" class="w-5 h-5"></i><span>Like</span>
+                        </button>
+                        <button class="flex items-center space-x-2 w-full justify-center py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i><span>Comment</span>
+                        </button>
+                        <button class="flex items-center space-x-2 w-full justify-center py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium">
+                            <i data-lucide="share-2" class="w-5 h-5"></i><span>Share</span>
+                        </button>
+                    </div>
+                `;
+                
+                if (isNew) {
+                    feedContainer.prepend(postElement);
+                } else {
+                    feedContainer.appendChild(postElement);
+                }
+                // CORRECTION: Efficient icon rendering on new element
+                lucide.createIcons({ root: postElement });
+            }
+
+            // Handle creating a new post
+            postButton.addEventListener('click', () => {
+                const postText = postInput.value.trim();
+                if (postText) {
+                    const newPostData = {
+                        author: 'Segun Adebayo',
+                        avatar: 'https://placehold.co/40x40/6366f1/white?text=S',
+                        time: 'Just now',
+                        content: postText,
+                        image: null, 
+                        likes: 0,
+                        comments: 0,
+                    };
+                    addPostToFeed(newPostData, true); 
+                    postInput.value = '';
+                    postButton.disabled = true;
+                    // Reset the textarea height after posting
+                    resizeTextarea(); 
+                }
+            });
+            
+            // --- 4. FEED INTERACTIVITY (LIKING) ---
+            feedContainer.addEventListener('click', (e) => {
+                const likeButton = e.target.closest('.like-button');
+                if (likeButton) {
+                    const likesCountSpan = likeButton.parentElement.querySelector('.likes-count');
+                    let currentLikes = parseInt(likesCountSpan.textContent, 10);
+                    
+                    // Toggle like state
+                    if (likeButton.classList.contains('text-blue-600')) {
+                        // Unlike
+                        likeButton.classList.remove('text-blue-600', 'dark:text-blue-400');
+                        likeButton.classList.add('text-gray-500', 'dark:text-gray-400');
+                        currentLikes--;
+                    } else {
+                        // Like
+                        likeButton.classList.remove('text-gray-500', 'dark:text-gray-400');
+                        likeButton.classList.add('text-blue-600', 'dark:text-blue-400');
+                        currentLikes++;
+                    }
+                    likesCountSpan.textContent = currentLikes;
+                    // Only re-create icons on the button to update its state if needed (mostly redundant for thumbs-up, but good practice)
+                    // The main thumbs-up icon in the stats section is updated automatically.
+                }
+            });
+
+            // --- 5. MOCK DATA & RENDERING ---
+            const initialPosts = [
+                {
+                    author: 'Jane Doe',
+                    avatar: 'https://placehold.co/40x40/ec4899/white?text=J',
+                    time: '8h ago',
+                    content: 'Just enjoying a beautiful sunset in Lagos! Nigeria is beautiful. 🌅 #L
